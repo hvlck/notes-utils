@@ -2,6 +2,12 @@
 
 utilities for managing my notes
 
+## Roadmap
+
++ `index command` to build an index based on headers and other notes in the same directory
++ build script to automatically throw the binary into the executable directory
++ metadata generation tools
+
 ## Docs
 
 ### Commands

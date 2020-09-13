@@ -1,8 +1,32 @@
 // std
 use std::fs;
+use std::io::{stdout, Write};
 
 // external
 use clap::{App, Arg, SubCommand};
+use crossterm::{
+    execute,
+    style::{style, Color, Print},
+    Result,
+};
+
+fn log(message: &String, message_type: &str) -> Result<()> {
+    match message_type {
+        "f" => execute!(
+            stdout(),
+            Print(style("ERROR  ").with(Color::Red)),
+            Print(style(message)),
+            Print("\n")
+        ),
+        "s" => execute!(
+            stdout(),
+            Print(style("SUCESS ").with(Color::Green)),
+            Print(style(message)),
+            Print("\n")
+        ),
+        _ => execute!(stdout(), Print(style(message)), Print("\n")),
+    }
+}
 
 fn main() {
     let app = App::new("notes")
@@ -19,7 +43,7 @@ fn main() {
     if let Some(m) = app.subcommand_matches("new") {
         if m.is_present("name") {
             let name = m.value_of("name").expect("Failed to get name, aborting...");
-            fs::write(
+            match fs::write(
                 format!("{}.md", name.clone().to_lowercase()),
                 format!(
                     r"# {}
@@ -28,10 +52,20 @@ fn main() {
 ",
                     name
                 ),
-            )
-            .expect("Failed to write to file, aborting...");
+            ) {
+                Ok(_) => {
+                    log(&format!("generated note {}", name), "s").unwrap();
+                }
+                Err(e) => {
+                    log(
+                        &format!("failed to write to file, aborting... ({})", e.to_string()),
+                        "f",
+                    )
+                    .unwrap();
+                }
+            };
         } else {
-            println!("No name specified, aborting...");
+            log(&"no name specified, aborting...".to_string(), "f").unwrap();
             std::process::exit(1)
         }
     }

@@ -4,11 +4,13 @@ utilities for managing my notes
 
 ## Roadmap
 
-+ `index command` to build an index based on headers and other notes in the same directory
-+ build script to automatically throw the binary into the executable directory
++ `index` command to build an index based on page descriptions and other notes in the same directory
 + metadata generation tools
 + coloured text
 + timing details
++ `link` to auto-generate reference links from markdown links with no text (e.g. `[](https://github.com/)` would become `[GitHub: The Largest and Most Advanced Open Source Development Platform - Secure Public & Private Repositories - Code Review - Codespaces - Actions - CI CD - Project Management - DevOps · GitHub](https://github.com/)`)
+  + use page title
+  + `reqwest`
 
 ## Docs
 

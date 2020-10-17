@@ -38,6 +38,11 @@ fn main() {
                 .about("Generate a new note.")
                 .arg(Arg::with_name("name").min_values(1).takes_value(true)),
         )
+        .subcommand(
+            SubCommand::with_name("index")
+                .about("Index a directory")
+                .arg(Arg::with_name("recursive").takes_value(false).short("r")),
+        )
         .get_matches();
 
     if let Some(m) = app.subcommand_matches("new") {
@@ -64,6 +69,7 @@ fn main() {
                     .unwrap();
                 }
             };
+        } else if let Some(m) = app.subcommand_matches("index") {
         } else {
             log(&"no name specified, aborting...".to_string(), "f").unwrap();
             std::process::exit(1)

@@ -1,7 +1,9 @@
 // std
+use std::collections::HashMap;
 use std::env::current_dir;
-use std::fs::{read_to_string, write};
-use std::io::{stdout, Write};
+use std::fs::{read_to_string, write, File};
+use std::io::{stdout, BufRead, BufReader, Write};
+use std::path::{Path, PathBuf};
 
 // external
 use clap::{App, Arg, SubCommand};
@@ -10,8 +12,10 @@ use crossterm::{
     style::{style, Color, Print},
     Result,
 };
+use lazy_static::lazy_static;
 use pulldown_cmark::{html, Event, Options, Parser, Tag};
 use rayon::prelude::*;
+use regex::Regex;
 use reqwest::blocking::get;
 use walkdir::WalkDir;
 
@@ -75,6 +79,8 @@ fn main() {
             }
         };
     } else if let Some(m) = app.subcommand_matches("index") {
+        let dir = current_dir().expect("Failed to get current directory, aborting...");
+        index(&dir);
     } else if let Some(subcommand) = app.subcommand_matches("archive") {
         let mut index: Vec<String> = Vec::new();
         let dir = current_dir().expect("Failed to get current directory, aborting...");
@@ -107,9 +113,50 @@ fn main() {
     )
     .expect("Failed to write index."); */
     } else {
-        log(&"no name specified, aborting...".to_string(), "f").unwrap();
+        log(&"Nothing specified...".to_string(), "f").unwrap();
         std::process::exit(1)
     }
+}
+
+fn index(dir: &PathBuf) -> HashMap<Vec<String>, Vec<HashMap<String, String>>> {
+    lazy_static! {
+        static ref PRIORITY_ONE: Regex = Regex::new("p::1").unwrap();
+    }
+
+    let mut errs: Vec<HashMap<String, String>> = Vec::new();
+    let mut index: Vec<String> = Vec::new();
+    for i in WalkDir::new(dir.clone()) {
+        let original_file_path = i.unwrap();
+
+        let path = original_file_path.path();
+        if path.is_file() == false {
+            continue;
+        };
+        match File::open(path) {
+            Ok(file) => {
+                for line in BufReader::new(file).lines() {
+                    if let Ok(ln) = line {
+                        if PRIORITY_ONE.is_match(&ln.as_str()) {
+                            index.push(ln);
+                        }
+                    } else if let Err(err) = line {
+                        let mut report: HashMap<String, String> = HashMap::new();
+                        report.insert(path.to_string_lossy().to_string(), err.to_string());
+                        errs.push(report);
+                    }
+                }
+            }
+            Err(err) => {
+                let mut report: HashMap<String, String> = HashMap::new();
+                report.insert(path.to_string_lossy().to_string(), err.to_string());
+                errs.push(report);
+            }
+        };
+    }
+
+    let mut rtval = HashMap::new();
+    rtval.insert(index, errs);
+    rtval
 }
 
 fn download_urls(index: Vec<String>) -> std::result::Result<Vec<String>, reqwest::Error> {
@@ -120,4 +167,29 @@ fn download_urls(index: Vec<String>) -> std::result::Result<Vec<String>, reqwest
     }*/
 
     Ok(results)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_priority_regex() {
+        let current_dir = std::env::current_dir().unwrap();
+        let regex_dir = current_dir.join("testing_regex");
+        let file = regex_dir.join("priority.md");
+
+        std::fs::create_dir(regex_dir.clone()).unwrap();
+        std::fs::write(file.clone(), "(GitHub)[https://github.com] [[p::1]]").unwrap();
+
+        let items = index(&regex_dir);
+
+        items.iter().enumerate().for_each(|(f, i)| {
+            if f == 0 {
+                assert_eq!("(GitHub)[https://github.com] [[p::1]]", i.0.get(0).unwrap());
+            }
+        });
+
+        std::fs::remove_file(file).unwrap();
+        std::fs::remove_dir(regex_dir).unwrap();
+    }
 }

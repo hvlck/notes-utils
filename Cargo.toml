@@ -10,9 +10,15 @@ license = "MIT"
 publish = false
 
 [dependencies]
+# general
+lazy_static = "~1.4.0"
+
 # terminal
 clap = "~2.33.3"
 crossterm = "~0.17.7"
+
+# search
+regex = "~1.4.2"
 
 # fs
 walkdir = "~2.3.1"

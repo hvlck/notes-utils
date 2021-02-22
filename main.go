@@ -6,10 +6,14 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 func main() {
 	check := flag.NewFlagSet("check", flag.ExitOnError)
+
+	new := flag.NewFlagSet("new", flag.ExitOnError)
+	newName := new.String("name", "", "name of new note")
 
 	if len(os.Args) < 2 {
 		fmt.Println("no subcommand invoked\nrun notes_utils help to view usage")
@@ -35,6 +39,21 @@ func main() {
 		res := cmd.Run()
 		if res != nil {
 			log.Fatalf("failed to run preen: %s", res)
+		}
+	case "new":
+		new.Parse(os.Args[2:])
+
+		fn := strings.ReplaceAll(strings.ToLower(*newName), " ", "-")
+		f, err := os.Create(fn + ".md")
+		if err != nil {
+			log.Fatalf("failed to create file %s: %s", *newName, err)
+		}
+		_, err = f.WriteString("# " + *newName + "\n\n## See Also\n")
+
+		if err != nil {
+			log.Fatalf("failed to write to file %s: %s", *newName, err)
+		} else {
+			fmt.Printf("successfully created note %s", *newName)
 		}
 	default:
 		fmt.Println("invalid subcommand invoked")

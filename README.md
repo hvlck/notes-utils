@@ -2,6 +2,12 @@
 
 utilities for managing my notes
 
+## Installation
+
+### Requirements
+
++ [preen](https://github.com/EthanJustice/preen) (link-checking tool)
+
 ## Roadmap
 
 + `index` command to build an index based on page descriptions and other notes in the same directory

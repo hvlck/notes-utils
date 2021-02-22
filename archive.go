@@ -123,7 +123,8 @@ func Archive() {
 	}
 
 	for _, file := range files {
-		if strings.HasPrefix(file, ".") {
+		i, _ := os.Stat(file)
+		if strings.HasPrefix(file, ".") || i.IsDir() {
 			continue
 		}
 

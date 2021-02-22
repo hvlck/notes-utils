@@ -1,3 +1,3 @@
-module notes_utils
+module nu
 
 go 1.16

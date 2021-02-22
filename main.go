@@ -15,6 +15,10 @@ func main() {
 	new := flag.NewFlagSet("new", flag.ExitOnError)
 	newName := new.String("name", "", "name of new note")
 
+	backlink := flag.NewFlagSet("backlink", flag.ExitOnError)
+
+	archive := flag.NewFlagSet("archive", flag.ExitOnError)
+
 	if len(os.Args) < 2 {
 		fmt.Println("no subcommand invoked\nrun notes_utils help to view usage")
 		os.Exit(1)
@@ -55,6 +59,11 @@ func main() {
 		} else {
 			fmt.Printf("successfully created note %s", *newName)
 		}
+	case "backlink":
+		backlink.Parse(os.Args[2:])
+	case "archive":
+		archive.Parse(os.Args[2:])
+		Archive()
 	default:
 		fmt.Println("invalid subcommand invoked")
 		os.Exit(1)

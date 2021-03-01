@@ -19,6 +19,8 @@ func main() {
 
 	archive := flag.NewFlagSet("archive", flag.ExitOnError)
 
+	validate := flag.NewFlagSet("validate", flag.ExitOnError)
+
 	if len(os.Args) < 2 {
 		fmt.Println("no subcommand invoked\nrun notes_utils help to view usage")
 		os.Exit(1)
@@ -64,6 +66,9 @@ func main() {
 	case "archive":
 		archive.Parse(os.Args[2:])
 		Archive()
+	case "validate":
+		validate.Parse(os.Args[2:])
+		Validate()
 	default:
 		fmt.Println("invalid subcommand invoked")
 		os.Exit(1)

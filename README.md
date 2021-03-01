@@ -6,7 +6,7 @@ utilities for managing my notes
 
 ### Requirements
 
-+ [preen](https://github.com/EthanJustice/preen) (link-checking tool)
++ [preen](https://github.com/hvlck/preen) (link-checking tool)
 
 ## Roadmap
 

@@ -11,6 +11,8 @@ import (
 	"regexp"
 	"strings"
 	"unicode/utf8"
+
+	md "github.com/JohannesKaufmann/html-to-markdown"
 )
 
 // Read utility function to get all files in a directory
@@ -36,7 +38,7 @@ func Find(contents string) []string {
 }
 
 // Save saves a file
-func Save(body string, match string) {
+func Save(body string, match string, markdown bool) {
 	match = regexp.MustCompile(`https?:\/\/(www\.)?`).ReplaceAllString(match, "")
 	match = strings.Join(strings.Split(match, "?")[:1], "")
 
@@ -58,12 +60,24 @@ func Save(body string, match string) {
 	if ext != "/index.html" {
 		final = path + strings.ReplaceAll(match, path, "")
 	}
+
+	if strings.HasSuffix(final, "html") {
+		final = strings.TrimSuffix(final, "html")
+		final = final + "md"
+	}
 	f, err := os.Create("archive/" + final)
 	if err != nil {
 		log.Fatalf("failed to create file %s: %s", match, err)
 	}
 
-	_, err = f.WriteString(body)
+	conv := md.NewConverter("", true, nil)
+
+	mark, err := conv.ConvertString(body)
+	if err != nil {
+		log.Fatalf("failed to convert html to markdown: %s", err)
+	}
+
+	_, err = f.WriteString(mark)
 	if err != nil {
 		log.Fatalf("failed to write contents to file %s: %s", match, err)
 	}
@@ -94,7 +108,7 @@ func download(match string) {
 			log.Fatalf("failed to read body: %s", err)
 		}
 
-		Save(string(body), match)
+		Save(string(body), match, true)
 
 		matches := Find(string(body))
 

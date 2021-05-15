@@ -31,8 +31,6 @@ func Validate() {
 			return nil
 		}
 
-		fmt.Printf("checking file %s\n", file)
-
 		f, err := os.ReadFile(file)
 		if err != nil {
 			log.Fatalf("failed to read file %s: %s", file, err)
@@ -56,5 +54,7 @@ func Validate() {
 	if err != nil {
 		fmt.Printf("error reading directories: %v\n", err)
 		return
+	} else {
+		fmt.Println("no invalid files!")
 	}
 }

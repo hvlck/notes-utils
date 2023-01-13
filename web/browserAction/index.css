@@ -1,0 +1,270 @@
+:root {
+  --highlight: var(--mid-blue);
+  --highlight-dim: var(--mid-blue-dim);
+  --primary: #181818;
+
+  --quaternary: #252525;
+  --senary: #3e3e3e;
+}
+
+:root {
+  --yellow: #ffc02c;
+  --yellow-dim: #ffc02c1a;
+
+  --orange: #ff7250;
+
+  --green-light: #5db79b;
+  --green: #15ffb6;
+  --green-dim: #15ffb61a;
+
+  --blue: #15d3ff;
+  --blue-dim: #15d3ff1a;
+
+  --mid-blue: #5e81f0;
+  --mid-blue-dim: #5e81f01a;
+
+  --dark-blue: #155eff;
+
+  --purple: #b615ff;
+
+  --red: #ff155e;
+  --red-dim: #ff155e1a;
+
+  --dark-one: #161616;
+  --dark-two: #252525;
+  --dark-two-dim: #252525b3;
+  --dark-three: #31333c;
+  --dark-four: #3e3e3e;
+  --dark-four-dim: #3e3e3e80;
+
+  --light-one: #ededed;
+  --light-two: #e0e0e0;
+  --light-two-dim: #e0e0e0b3;
+  --light-three: #d4d4d4;
+  --light-three-dim: #d4d4d4b3;
+  --light-four: #a1a1a1;
+  --light-five: #7b7b7b;
+
+  --border-small: 1px;
+  --border-normal: 2px;
+  --border-large: 6px;
+
+  --border-radius: 4px;
+
+  --highlight-dark: var(--purple);
+
+  --constrained: 900px;
+
+  --headings-text: "Radio Canada", "ui-sans-serif", "system-ui",
+    "-apple-system", BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --body-text: "Radio Canada", "ui-sans-serif", "system-ui", "-apple-system",
+    BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+
+  --transition-fast: 100ms ease-in;
+
+  --primary: var(--light-one);
+  --secondary: var(--dark-one);
+  --tertiary: var(--dark-two);
+  --quaternary: var(--light-two);
+  --quaternary-dim: var(--light-two-dim);
+  --quinary: var(--light-four);
+  --senary: var(--light-three);
+  --senary-dim: var(--light-three-dim);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: var(--dark-one);
+    --secondary: var(--light-one);
+    --tertiary: var(--light-three);
+    --quaternary: var(--dark-two);
+    --quaternary-dim: var(--dark-two-dim);
+    --quinary: var(--light-four);
+    --senary: var(--dark-four);
+    --senary-dim: var(--dark-four-dim);
+  }
+}
+
+@media (prefers-reduced-motion) {
+  * {
+    transition: none !important;
+  }
+}
+
+body {
+  line-height: 1.8;
+  min-width: 500px;
+  margin: 0 auto;
+  background-color: var(--primary);
+  color: var(--tertiary);
+  font-family: var(--headings-text);
+}
+
+body>* {
+  padding: 0 10px;
+}
+
+* {
+  transition: var(--transition-fast);
+}
+
+p {
+  font-weight: 400;
+}
+
+h1 {
+  margin: 0.5rem 0;
+  font-size: 2.052rem;
+  color: var(--quinary);
+}
+
+h2 {
+  margin: 1.4rem 0;
+  font-size: 2.441rem;
+}
+
+h3 {
+  margin: 1.12rem 0;
+  font-size: 1.953rem;
+}
+
+h4 {
+  margin: 0.896rem 0;
+  font-size: 1.563rem;
+}
+
+h5 {
+  margin: 0.7168rem 0;
+  font-size: 1.25rem;
+}
+
+h6 {
+  margin: 0.7168rem 0;
+  font-size: 1.1rem;
+}
+
+mark {
+  background-color: var(--yellow);
+  color: var(--primary);
+}
+
+hr {
+  border: 0;
+  border-top: 3px solid var(--quaternary);
+  width: 100%;
+  margin: 1rem auto;
+  border-radius: 1px;
+}
+
+a,
+a:visited {
+  color: var(--mid-blue);
+  text-decoration: none;
+  font-weight: normal;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+nav {
+  z-index: 1000;
+  background-color: var(--primary);
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 1200px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--senary);
+
+  display: flex;
+  flex: 1;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-content: center;
+}
+
+nav a.active,
+nav a.active:hover {
+  color: var(--highlight) !important;
+  background-color: var(--highlight-dim);
+}
+
+nav a.active svg {
+  color: var(--highlight);
+}
+
+nav a,
+nav a:visited {
+  margin: 0.5rem 0;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  color: var(--quinary);
+  border-radius: 6px;
+  padding: 0.25rem 0.75rem;
+}
+
+nav a:hover {
+  color: var(--secondary);
+  background-color: var(--senary-dim);
+}
+
+nav a span {
+  vertical-align: middle !important;
+  display: inline-block !important;
+}
+
+nav a svg {
+  vertical-align: text-bottom;
+  text-align: center;
+  color: var(--quinary);
+  width: 16px;
+  height: 16px;
+  margin: 0 0.5rem 0 0;
+}
+
+section {
+  animation: 150ms fadeIn linear;
+  display: none;
+}
+
+:disabled {
+  opacity: 0.5;
+}
+
+:disabled:hover,
+:disabled:focus {
+  border-color: transparent !important;
+}
+
+:invalid {
+  border-color: var(--red);
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 12pt;
+  color: var(--quinary);
+  outline: none;
+  background-color: transparent;
+  /* background-color: var(--senary); */
+  border: 2px solid var(--senary) !important;
+  border-radius: var(--border-radius);
+}
+
+textarea {
+  min-width: 100%;
+  min-height: 400px;
+  display: block;
+
+  background-color: var(--quaternary);
+  color: var(--secondary);
+  border: 2px solid var(--senary);
+  border-radius: 6px;
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>notes-utils</title>
+        <link rel="stylesheet" type="text/css" href="./index.css" />
+    </head>
+
+    <body>
+        <h1>Notes</h1>
+        <details open="true">
+            <summary>Window</summary>
+            <div id="current-window">
+                <textarea id="current-window-tabs"></textarea>
+                <input id="copy-current-window-urls" type="button" value="Copy URLs" />
+                <input id="copy-current-window-markdown" type="button" value="Copy in Markdown" />
+            </div>
+        </details>
+        <details>
+            <summary>Load Tabs</summary>
+            <textarea id="load-new-tabs"></textarea>
+            <input id="load-new-tabs-current" type="button" value="Load in current window" />
+            <input id="load-new-tabs-window" type="button" value="Load in new window" />
+        </details>
+        <script src="./index.js"></script>
+    </body>
+
+</html>

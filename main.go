@@ -70,7 +70,7 @@ func main() {
 		validate.Parse(os.Args[2:])
 		Validate()
 	default:
-		fmt.Println("invalid subcommand invoked")
+		fmt.Println("invalid subcommand")
 		os.Exit(1)
 	}
 }

@@ -1,0 +1,13 @@
+{
+    "name": "notes-utils",
+    "version": "0.0.1",
+    "description": "personal note utilities web extension",
+    "main": "src/index.ts",
+    "repository": "https://github.com/hvlck/notes-utils",
+    "author": "hvlck",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "web-ext": "^7.4.0"
+    }
+}

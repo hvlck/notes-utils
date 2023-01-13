@@ -10,6 +10,7 @@ utilities for managing my notes
 
 ## Roadmap
 
++ parser for my markdown dsl
 + `index` command to build an index based on page descriptions and other notes in the same directory
 + `unread` command to index unread articles by priority
 + metadata generation tools
